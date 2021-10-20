@@ -40,7 +40,7 @@
                     <h1 style='font-weight:bolder;'>
                         
                         <?php
-                        $stmt = "SELECT * FROM tbl_manufacturer";
+                        $stmt = "SELECT * FROM manu";
                         $result = mysqli_query($con, $stmt);
                         echo mysqli_num_rows($result);
                         
@@ -78,7 +78,7 @@
                         
                         
                          <?php
-                         $stmt = "SELECT * FROM tbl_drug WHERE status = 'expired'";
+                         $stmt = "SELECT * FROM view_drug WHERE status = 'expired'";
                          $result = mysqli_query($con, $stmt);
                          echo mysqli_num_rows($result);
                          
@@ -113,30 +113,33 @@
                   <tbody>
                     <?php 
                     
-                    $stmt = "select tbl_drug.drug_id, tbl_drug.name as 'drug name', tbl_drug_cat.name as 'drug name', tbl_manufacturer.name, tbl_manufacturer.address,
-                    tbl_manufacturer.email, tbl_manufacturer.email, tbl_drug.manu_date, tbl_drug.exp_date, tbl_drug.description, 
-                    tbl_drug.drug_number, tbl_drug.reg_date, tbl_drug.status FROM tbl_drug, tbl_drug_cat, tbl_manufacturer
-                    WHERE tbl_drug.drug_type_id = tbl_drug_cat.cat_id AND tbl_drug.manu_id = tbl_manufacturer.manu_id AND tbl_drug.status = 'expired'    ";
+                    $stmt = "SELECT * FROM view_drug WHERE status = 'expired'    ";
                     
                     $result = mysqli_query($con, $stmt);
                     $rowCount = 0;
-                    while($row = mysqli_fetch_assoc($result)){
-                      $rowCount++; 
-                      $id = $row['drug_id'];
-                      $name = $row['drug name'];
-                      $num = $row['drug_number'];
-                      $status = $row['status'];
-                      $manu = $row['name'];
-
+                    if(mysqli_num_rows($result) > 0){
+                      while($row = mysqli_fetch_assoc($result)){
+                        $rowCount++; 
+                        $id = $row['drug_id'];
+                        $name = $row['drug name'];
+                        $num = $row['drug_number'];
+                        $status = $row['status'];
+                        $manu = $row['name'];
+  
+                        echo "
+                          <tr>
+                            <td>$rowCount</td>
+                            <td>$name</td>
+                            <td>$num</td>
+                            <td>$status</td>
+                            <td>$manu</td>
+                          </tr>
+                        
+                        ";
+                      }
+                    }else{
                       echo "
-                        <tr>
-                          <td>$rowCount</td>
-                          <td>$name</td>
-                          <td>$num</td>
-                          <td>$status</td>
-                          <td>$manu</td>
-                        </tr>
-                      
+                        <tr> <td colspan='5'>  <strong> <center> No record found </center> </strong> </td> </tr>
                       ";
                     }
                     

@@ -35,6 +35,13 @@
           </li>
 
           <li class='nav-item'>
+            <a href='companies.php' class='nav-link'>
+              <i class='nav-icon fa fa-industry'></i>
+              <p>Companies</p>
+            </a>
+          </li>
+
+          <li class='nav-item'>
             <a href='manufacturer.php' class='nav-link'>
               <i class='nav-icon fa fa-industry'></i>
               <p>Manufacturer</p>
@@ -44,7 +51,7 @@
           <li class='nav-item'>
             <a href='drugs.php' class='nav-link'>
               <i class='nav-icon fa fa-prescription-bottle-alt'></i>
-              <p>Add/Manage Drug</p>
+              <p>Drug</p>
             </a>
           </li>     
           

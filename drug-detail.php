@@ -53,17 +53,14 @@
                       <tbody>
                         <?php 
                           $id = $_GET['id'];
-                          $stmt = "select tbl_drug.drug_id, tbl_drug.name as 'drug name', tbl_drug_cat.name as 'cat_name', tbl_manufacturer.name, tbl_manufacturer.address,
-                          tbl_manufacturer.email, tbl_manufacturer.phone_number, tbl_drug.manu_date, tbl_drug.exp_date, tbl_drug.description, 
-                          tbl_drug.drug_number, tbl_drug.reg_date, tbl_drug.status FROM tbl_drug, tbl_drug_cat, tbl_manufacturer
-                          WHERE tbl_drug.drug_type_id = tbl_drug_cat.cat_id AND tbl_drug.manu_id = tbl_manufacturer.manu_id AND tbl_drug.drug_id = $id";
+                          $stmt = "SELECT * FROM view_drug WHERE drug_id = $id";
                           $result = mysqli_query($con, $stmt);
                           if(mysqli_num_rows($result) == 1){
                             $row = mysqli_fetch_assoc($result);
                           
                         ?>
                         <tr>
-                          <td><?= $row['drug name'] ?></td>
+                          <td><?= $row['drug_name'] ?></td>
                           <td><?= $row['cat_name'] ?></td>
                           <td><?= $row['drug_number'] ?></td>
                           <td><?= date("F j, Y", strtotime($row['manu_date']))  ?></td>

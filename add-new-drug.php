@@ -82,16 +82,22 @@
                 <div class="card-body">
                   <form  method="post">
                   <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="">Drug category</label>
                       <select name='category' class='form-control' required>
                         <?php get_category(); ?>
                       </select>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="">Drug manufacturer</label>
                       <select name="manufacturer" id="" class="form-control" required >
                         <?php get_manu(); ?>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="">Receiving company</label>
+                      <select name="rcom" id="" class="form-control" required >
+                        <?php get_rcom(); ?>
                       </select>
                     </div>
                     <div class="form-group col-md-4">
@@ -183,7 +189,7 @@ function get_manu(){
   global $con;
   if(isset($_GET['manu'])){
     $manu = $_GET['manu'];
-    $stmt = "SELECT * FROM tbl_manufacturer WHERE manu_id in (SELECT manu_id from tbl_manufacturer WHERE name ='$manu') ORDER by name ASC";
+    $stmt = "SELECT * FROM manu WHERE manu_id in (SELECT manu_id from manu WHERE name ='$manu') ORDER by name ASC";
     $result = mysqli_query($con, $stmt);
     while($row = mysqli_fetch_assoc($result)){
       $id = $row['manu_id'];
@@ -192,7 +198,7 @@ function get_manu(){
         <option value='$id'>$name</option>
       ";
     }
-    $stmt = "SELECT * FROM tbl_manufacturer WHERE manu_id in (SELECT manu_id from tbl_manufacturer WHERE name !='$manu') ORDER by name ASC";
+    $stmt = "SELECT * FROM manu WHERE manu_id in (SELECT manu_id from manu WHERE name !='$manu') ORDER by name ASC";
     $result = mysqli_query($con, $stmt);
     while($row = mysqli_fetch_assoc($result)){
       $id = $row['manu_id'];
@@ -203,17 +209,31 @@ function get_manu(){
     }
   }else{
     echo ' <option value="">Select manufacturer</option> ';
-    $stmt = "SELECT * FROM tbl_manufacturer ORDER by name ASC";
+    $stmt = "SELECT * FROM manu";
     $result = mysqli_query($con, $stmt);
     while($row = mysqli_fetch_assoc($result)){
       $id = $row['manu_id'];
-      $name = $row['name'];
+      $name = $row['manu_name'];
       echo "
         <option value='$id'>$name</option>
       ";
     }
   }
 
+}
+
+function get_rcom(){
+  global  $con; 
+
+  $stmt = "SELECT * FROM tbl_rec_comp";
+  $result = mysqli_query($con, $stmt); 
+  echo "  <option value=''>Select recieving company</option> ";
+  while($row = mysqli_fetch_assoc($result)){
+    $id = $row['rec_id'];
+    $name = $row['name'];
+
+    echo "  <option value='$id'>$name</option> "; 
+  }
 }
 
 
@@ -225,6 +245,7 @@ if(isset($_POST['btnDrug'])){
   $edate = $_POST['edate'];
   $desc = $_POST['desc'];
   $regdate = date('Y-m-d');
+  $comp = $_POST['rcom'];
   //Get row count
   $stmt = "SELECT COUNT(*) FROM tbl_drug";
   $result = mysqli_query($con, $stmt);
@@ -233,8 +254,8 @@ if(isset($_POST['btnDrug'])){
   $prefixText =  truncate($name, 3);
   $serial = $prefixText . '-' . 000 . date('dym') .  $row[0];
 
-  $stmt = "INSERT INTO tbl_drug (name,drug_type_id,manu_id,manu_date,exp_date,description, drug_number, reg_date, status )";
-  $stmt.= " VALUES ('$name', '$category', '$manu', '$mdate', '$edate', '$desc','$serial', '$date', 'active')";
+  $stmt = "INSERT INTO tbl_drug (name,drug_type_id,manu_id, rcom ,manu_date,exp_date,description, drug_number, reg_date, status )";
+  $stmt.= " VALUES ('$name', '$category', '$manu',$comp ,'$mdate', '$edate', '$desc','$serial', '$date', 'active')";
   $result = mysqli_query($con, $stmt);
   if($result){
     header('location: drugs.php');

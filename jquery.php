@@ -15,13 +15,24 @@ if(isset($_POST['delete_cat'])){
 
 if(isset($_POST['delete_manu'])){
     $id = $_POST['delete_manu'];
-    $stmt = "DELETE FROM tbl_manufacturer WHERE manu_id = '$id'";
+    $stmt = "DELETE FROM tbl_rec_comp WHERE rec_id = '$id'";
     $result = mysqli_query($con, $stmt);
     if($result){
         echo "deleted";
     }else{
         echo "failed";
     }
+}
+
+if(isset($_POST['delete_rec'])){
+    $id = $_POST['delete_rec'];
+    $stmt = "DELETE FROM manu WHERE manu_id = '$id'";
+    $result = mysqli_query($con, $stmt);
+    if($result){
+        echo "deleted";
+    }else{
+        echo "failed";
+    } 
 }
 
 if(isset($_POST['delete_drug'])){

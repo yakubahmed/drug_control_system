@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Drug</h1>
+            <h1 class="m-0 text-dark">Drugs</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -54,10 +54,7 @@
                     <tbody>
                       <?php 
                         $rowCount = 0;
-                        $stmt = "select tbl_drug.drug_id, tbl_drug.name as 'drug_name', tbl_drug_cat.name as 'cat_name', 
-                        tbl_manufacturer.name, tbl_drug.manu_date, tbl_drug.exp_date, tbl_drug.drug_number, 
-                        tbl_drug.reg_date, tbl_drug.status, tbl_drug.description FROM tbl_drug, tbl_drug_cat, tbl_manufacturer 
-                        WHERE tbl_drug.drug_type_id = tbl_drug_cat.cat_id AND tbl_drug.manu_id = tbl_manufacturer.manu_id;";
+                        $stmt = "SELECT * FROM view_drug WHERE status = 'active'";
                         $result = mysqli_query($con, $stmt);
                         while($row = mysqli_fetch_assoc($result)){
                           $rowCount++;
